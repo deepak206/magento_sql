@@ -1,3 +1,4 @@
+
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE `catalog_category_entity`;
 TRUNCATE TABLE `catalog_category_entity_datetime`;
