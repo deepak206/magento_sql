@@ -1,0 +1,107 @@
+To install PHP 7 we need to clone the php-src repository, configure and compile. Let’s create a php7 folder in the home directory and clone the project:
+
+		mkdir $HOME/php7
+		cd $HOME/php7
+		git clone https://git.php.net/repository/php-src.git
+
+After that, we need to prepare and configure the compiler. We need to execute the following commands:
+
+		cd php-src
+		./buildconf
+		./configure \
+		    --prefix=$HOME/php7/usr \
+		    --with-config-file-path=$HOME/php7/usr/etc \
+		    --enable-mbstring \
+		    --enable-zip \
+		    --enable-bcmath \
+		    --enable-pcntl \
+		    --enable-ftp \
+		    --enable-exif \
+		    --enable-calendar \
+		    --enable-sysvmsg \
+		    --enable-sysvsem \
+		    --enable-sysvshm \
+		    --enable-wddx \
+		    --with-curl \
+		    --with-mcrypt \
+		    --with-iconv \
+		    --with-gmp \
+		    --with-pspell \
+		    --with-gd \
+		    --with-jpeg-dir=/usr \
+		    --with-png-dir=/usr \
+		    --with-zlib-dir=/usr \
+		    --with-xpm-dir=/usr \
+		    --with-freetype-dir=/usr \
+		    --with-t1lib=/usr \
+		    --enable-gd-native-ttf \
+		    --enable-gd-jis-conv \
+		    --with-openssl \
+		    --with-mysql=/usr \
+		    --with-pdo-mysql=/usr \
+		    --with-gettext=/usr \
+		    --with-zlib=/usr \
+		    --with-bz2=/usr \
+		    --with-recode=/usr \
+		    --with-mysqli=/usr/bin/mysql_config
+
+
+Error: Your t1lib distribution is not installed correctly.
+Solution : sudo apt-get install libt1-dev
+
+Error: Unable to locate gmp.h
+I tried to install the libgmp-dev library:
+		sudo apt-get install libgmp-dev
+
+but the library was already installed, so I search for it:
+		locate gm.h
+
+and I found it on /usr/include/x86_64-linux-gnu/gmp.h (I’m using a 64bit version).
+
+I tried to symlink it to /usr/include/gmp.h (the default location for include):
+	
+ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h 
+
+
+
+Now it’s time to compile PHP 7 with the following commands:
+		make
+		make install
+
+We have almost done the installation, we just need to create the php.ini file in the $HOME/php7/usr/etc folder. We can easily create it using vi with the following commands:
+	
+		mkdir $HOME/php7/usr/etc
+		vi $HOME/php7/usr/etc/php.ini
+
+We can use the following content for the php.ini:
+
+			max_execution_time=600
+		memory_limit=128M
+		error_reporting=0
+		display_errors=0
+		log_errors=0
+		user_ini.filename=
+		realpath_cache_size=2M
+		cgi.check_shebang_line=0
+		 
+		zend_extension=opcache.so
+		opcache.enable_cli=1
+		opcache.save_comments=0
+		opcache.fast_shutdown=1
+		opcache.validate_timestamps=1
+		opcache.revalidate_freq=60
+		opcache.use_cwd=1
+		opcache.max_accelerated_files=100000
+		opcache.max_wasted_percentage=5
+		opcache.memory_consumption=128
+		opcache.consistency_checks=0
+
+And finally we can test PHP using the command line interface (CLI):
+	
+		$HOME/php7/php-src/sapi/cli/php -v
+
+You will get a result like this:
+	
+		PHP 7.0.0-dev (cli) (built: xxx)
+		Copyright (c) 1997-2015 The PHP Group
+		Zend Engine v3.0.0-dev, Copyright (c) 1998-2015 Zend Technologies
