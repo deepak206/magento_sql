@@ -1,0 +1,22 @@
+# How to set up cron using SSH
+
+#step 1: Connect to your server using SSH.
+#Step 2: To set up cront use : "crontab -e"
+		This command will new editor.
+#step 3: To start editing in editor press "a".
+
+#Step 4: Setup cron setting here:
+
+		* * * * * (path to cron file)/cron.php
+		
+		you can also set your email by using MAILTO function
+		
+		MAILTO = deepakmankotiacse@gmail.com
+
+#Step 5: To stop editing press "Esc" the type ":wq"
+
+#Step 6: To check Cron "crontab - l" this returns list of crons.
+
+Have fun!!!!!!!
+ 
+
